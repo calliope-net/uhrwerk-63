@@ -6,7 +6,7 @@ input.onButtonEvent(Button.A, input.buttonEventClick(), function () {
             Minuten60 = 59
         }
     } else if (Status == 3) {
-        EncoderMinuten += -1
+        EncoderMinuten += 1
         motors.dualMotorPower(Motor.M0, -20)
     }
     Ziffern()
@@ -27,16 +27,16 @@ input.onButtonEvent(Button.B, input.buttonEventClick(), function () {
 pins.onPulsed(DigitalPin.P2, PulseValue.Low, function () {
     EncoderImpulse += 1
     if (EncoderImpulse >= EncoderMinuten * (191 / 3)) {
-        if (Status == 1) {
-            motors.dualMotorPower(Motor.M0, 0)
-            Ziffern()
-            E2 = EncoderImpulse
-            basic.setLedColors(0xff0000, 0x000000, 0x000000, 5)
-        }
+        motors.dualMotorPower(Motor.M0, 0)
+        Ziffern()
+        E2 = EncoderImpulse
+        StatusLED()
     }
 })
 function StatusLED () {
-    if (Status == 2) {
+    if (Status == 1) {
+        basic.setLedColors(0x00ff00, 0x000000, 0x000000, 5)
+    } else if (Status == 2) {
         basic.setLedColors(0x000000, 0x00ffff, 0x000000)
     } else if (Status == 3) {
         basic.setLedColors(0x000000, 0x000000, 0xff00ff)
@@ -73,16 +73,13 @@ pins.setPull(DigitalPin.P2, PinPullMode.PullUp)
 EncoderMinuten = 0
 let bUhrstellen = false
 Status = 1
-basic.setLedColor(0xff0000)
 loops.everyInterval(60000, function () {
-    if (Status == 1) {
-        EncoderMinuten += 1
-        if (Minuten60 < 59) {
-            Minuten60 += 1
-        } else {
-            Minuten60 = 0
-        }
-        motors.dualMotorPower(Motor.M0, 20)
-        basic.setLedColors(0xb09eff, 0x000000, 0x000000)
+    EncoderMinuten += 1
+    if (Minuten60 < 59) {
+        Minuten60 += 1
+    } else {
+        Minuten60 = 0
     }
+    motors.dualMotorPower(Motor.M0, 20)
+    basic.setLedColors(0xb09eff, 0x000000, 0x000000)
 })
