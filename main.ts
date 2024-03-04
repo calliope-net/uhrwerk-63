@@ -1,11 +1,13 @@
 input.onButtonEvent(Button.A, input.buttonEventClick(), function () {
     if (Status == 2) {
+        _("Anzeige 1 Min zurück stellen")
         if (Minuten60 > 0) {
             Minuten60 += -1
         } else {
             Minuten60 = 59
         }
     } else if (Status == 3) {
+        _("Motor 1 Min zurück stellen")
         EncoderMinuten += 1
         motors.dualMotorPower(Motor.M0, -20)
     }
@@ -13,12 +15,14 @@ input.onButtonEvent(Button.A, input.buttonEventClick(), function () {
 })
 input.onButtonEvent(Button.B, input.buttonEventClick(), function () {
     if (Status == 2) {
+        _("Anzeige 1 Min vor stellen")
         if (Minuten60 < 59) {
             Minuten60 += 1
         } else {
             Minuten60 = 0
         }
     } else if (Status == 3) {
+        _("Motor 1 Min vor stellen")
         EncoderMinuten += 1
         motors.dualMotorPower(Motor.M0, 20)
     }
@@ -29,6 +33,7 @@ pins.onPulsed(DigitalPin.P2, PulseValue.Low, function () {
     if (EncoderImpulse >= EncoderMinuten * (191 / 3)) {
         motors.dualMotorPower(Motor.M0, 0)
         Ziffern()
+        _("E2 Zählerstand vom letzten Stop")
         E2 = EncoderImpulse
         StatusLED()
     }
@@ -71,7 +76,6 @@ o4digit.set(4)
 o4digit.point(true)
 pins.setPull(DigitalPin.P2, PinPullMode.PullUp)
 EncoderMinuten = 0
-let bUhrstellen = false
 Status = 1
 loops.everyInterval(60000, function () {
     EncoderMinuten += 1
