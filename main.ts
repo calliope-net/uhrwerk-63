@@ -30,7 +30,7 @@ input.onButtonEvent(Button.B, input.buttonEventClick(), function () {
 })
 pins.onPulsed(DigitalPin.P2, PulseValue.Low, function () {
     EncoderImpulse += 1
-    if (EncoderImpulse >= EncoderMinuten * (192 / 3)) {
+    if (EncoderImpulse >= EncoderMinuten * 63.9) {
         motors.dualMotorPower(Motor.M0, 0)
         Ziffern()
         _("E2 Zählerstand vom letzten Stop")
